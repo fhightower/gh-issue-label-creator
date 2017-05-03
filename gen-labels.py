@@ -1,10 +1,16 @@
-import requests
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Label creator for issues in github."""
+
 import argparse
-import json
 import collections
+import json
+
+import requests
 
 def output(message):
     print(message)
+
 
 def setup_args_parser():
     parser = argparse.ArgumentParser(description="Generates GitHub issue labels.")
@@ -16,27 +22,33 @@ def setup_args_parser():
     parser.add_argument('-t', '--test', dest='test', action='store_true', help="If true, performs a dry run without actually making request to github")
     return parser
 
+
 def parse_args():
     output("parsing arguments")
     return setup_args_parser().parse_args()
+
 
 def read_definitions(file_):
     output("reading defintions from file " + file_)
     with open(file_, 'r') as stream:
         return json.load(stream)
 
+
 def generate_request(args, label_def):
     url = "https://api.github.com/repos/%s/%s/labels" % (args.owner, args.repository)
     body = json.dumps({'name':label_def['name'], 'color': label_def['color']})
     return (url, body)
 
+
 def print_progress(name, color, request):
     output("  " + name + ", " + color + ", " + request)
+
 
 def test_output(args, label_defs):
     output("This will generate the following labels, using HTTP requests:")
     for label_def in label_defs['label']:
         print_progress(label_def['name'], label_def['color'], generate_request(args, label_def)[0])
+
 
 def issue_requests(args, label_defs):
     two_factor = input("Enter two factor code: ")
@@ -57,6 +69,7 @@ def issue_requests(args, label_defs):
             output("  failed: (%s) %s" % (response.status_code, response.text))
         else:
             output("  done (%s)!" % (response.status_code))
+
 
 if __name__ == '__main__':
     args = parse_args()
