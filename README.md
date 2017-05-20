@@ -54,9 +54,3 @@ optional arguments:
   -t, --test            If true, performs a dry run without actually making
                         request to github
 ```
-
-## Limitations ##
-
-Issues are all tracked in GitHub Issues...using labels that I created with this script! There are a few enhancements I'd like to make, but feel free to post issues as and when you find them...or, better still, send me a pull request.
-
-
