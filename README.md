@@ -1,6 +1,6 @@
 # GitHub Issue Label Generator
 
-The code in this repository is a modified version of the code here: [https://github.com/martinpeck/gh-issue-label-generator](https://github.com/martinpeck/gh-issue-label-generator).
+The code in this repository is a modified version of the code here: [https://github.com/martinpeck/gh-issue-label-generator](https://github.com/martinpeck/gh-issue-label-generator). This version of the script works even if you have two factor enabled on your account (and why would you not???).
 
 This python script will generate the standard set of labels that we use in all of our GitHub issues databases.
 
