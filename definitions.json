@@ -1,8 +1,9 @@
 {
   "label" : [
-    {"name": "importance: HIGH", "color": "000000"},
-    {"name": "importance: MEDIUM", "color": "656565"},
-    {"name": "importance: LOW", "color": "bbbbbb"},
+    {"name": "importance: CRITICAL", "color": "000000"},
+    {"name": "importance: MAJOR", "color": "555555"},
+    {"name": "importance: MINOR", "color": "aaaaaa"},
+    {"name": "importance: TRIVIAL", "color": "eeeeee"},
     {"name": "effort: HIGH", "color": "b60205"},
     {"name": "effort: MEDIUM", "color": "fbca04"},
     {"name": "effort: LOW", "color": "0ebe06"}
