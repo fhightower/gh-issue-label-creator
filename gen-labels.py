@@ -3,23 +3,33 @@
 """Label creator for issues in github."""
 
 import argparse
-import collections
 import json
 
 import requests
+
 
 def output(message):
     print(message)
 
 
 def setup_args_parser():
-    parser = argparse.ArgumentParser(description="Generates GitHub issue labels.")
-    parser.add_argument('-u', '--user', dest='username', required = True, help="github username")
-    parser.add_argument('-p', '--pass', dest='password', required = True, help="github password, or application token for 2FA")
-    parser.add_argument('-o', '--owner', dest='owner', required = True, help="the owner of the repository to update")
-    parser.add_argument('-r', '--repo', dest='repository', required = True, help="the repository to update")
-    parser.add_argument('-d', '--def', dest='definitions', help="location of json file containing label definitions. Defaults to definitions.json", default='definitions.json')
-    parser.add_argument('-t', '--test', dest='test', action='store_true', help="If true, performs a dry run without actually making request to github")
+    parser = argparse.ArgumentParser(description="Generates GitHub issue " +
+                                                 "labels.")
+    parser.add_argument('-u', '--user', dest='username', required=True,
+                        help="github username")
+    parser.add_argument('-p', '--pass', dest='password', required=True,
+                        help="github password, or application token for 2FA")
+    parser.add_argument('-o', '--owner', dest='owner', required=True,
+                        help="the owner of the repository to update")
+    parser.add_argument('-r', '--repo', dest='repository', required=True,
+                        help="the repository to update")
+    parser.add_argument('-d', '--def', dest='definitions',
+                        help="location of json file containing label " +
+                             "definitions. Defaults to definitions.json",
+                        default='definitions.json')
+    parser.add_argument('-t', '--test', dest='test', action='store_true',
+                        help="If true, performs a dry run without actually " +
+                             "making request to github")
     return parser
 
 
@@ -35,8 +45,9 @@ def read_definitions(file_):
 
 
 def generate_request(args, label_def):
-    url = "https://api.github.com/repos/%s/%s/labels" % (args.owner, args.repository)
-    body = json.dumps({'name':label_def['name'], 'color': label_def['color']})
+    url = "https://api.github.com/repos/{}/{}/labels".format(args.owner,
+                                                             args.repository)
+    body = json.dumps({'name': label_def['name'], 'color': label_def['color']})
     return (url, body)
 
 
@@ -47,23 +58,24 @@ def print_progress(name, color, request):
 def test_output(args, label_defs):
     output("This will generate the following labels, using HTTP requests:")
     for label_def in label_defs['label']:
-        print_progress(label_def['name'], label_def['color'], generate_request(args, label_def)[0])
+        print_progress(label_def['name'], label_def['color'],
+                       generate_request(args, label_def)[0])
 
 
 def issue_requests(args, label_defs):
     two_factor = input("Enter two factor code: ")
     output("Creating labels:")
     for label_def in label_defs['label']:
-        name = label_def['name']
-        color = label_def['color']
-        output("  creating '%s' with color '%s'" % (label_def['name'], label_def['color']))
+        output("  creating '{}' with color '{}'".format(label_def['name'],
+                                                        label_def['color']))
 
         auth = (args.username, args.password)
         http_request = generate_request(args, label_def)
         header = {
-            'X-GitHub-OTP': two_factor
+            'X-GitHub-OTP': str(two_factor)
         }
-        response = requests.post(http_request[0], headers=header, data=http_request[1], auth=auth, timeout=10)
+        response = requests.post(http_request[0], headers=header,
+                                 data=http_request[1], auth=auth, timeout=10)
 
         if (response.status_code != 200 and response.status_code != 201):
             output("  failed: (%s) %s" % (response.status_code, response.text))
