@@ -7,6 +7,7 @@
     {"name": "effort: HIGH", "color": "b60205"},
     {"name": "effort: MEDIUM", "color": "fbca04"},
     {"name": "effort: LOW", "color": "0ebe06"},
-    {"name": "effort: ???", "color": "99cc99"}
+    {"name": "effort: ???", "color": "99cc99"},
+    {"name": "On Hold", "color": "a38d66"}
   ]
 }
