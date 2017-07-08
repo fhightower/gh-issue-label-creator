@@ -17,23 +17,23 @@ The definition of the labels you want to create is set within `definitions.json`
 
 - install the requirements with `pip install -r requirements.txt`
 - make sure that ALL of the existing labels in the repository are deleted (or, be prepared to put up with some errors)
-- run `gen-labels.py` in the following manner...
+- run `gen_labels.py` in the following manner...
 
 ```
-python gen-labels.py -u USERNAME -p PASSWORD -o REPOSITORY-OWNER -r REPOSITORY
+python gen_labels.py -u USERNAME -p PASSWORD -o REPOSITORY-OWNER -r REPOSITORY
 ```
 
 For example...
 
 ```
-python gen-labels.py -u martinpeck -p 1234$abcd -o martinpeck -r plinky
+python gen_labels.py -u martinpeck -p 1234$abcd -o martinpeck -r plinky
 
 ```
 
 Full usage can be obtained by using `-h` command line arg...
 
 ```
-usage: gen-labels.py [-h] -u USERNAME -p PASSWORD -o OWNER -r REPOSITORY
+usage: gen_labels.py [-h] -u USERNAME -p PASSWORD -o OWNER -r REPOSITORY
                      [-d DEFINITIONS] [-t]
 
 Generates GitHub issue labels.
