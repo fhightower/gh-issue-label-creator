@@ -66,17 +66,6 @@ def make_request(args, label=None, request_url=None, repo_name=None):
     return response, request_url
 
 
-def print_progress(name, color, request):
-    print("  " + name + ", " + color + ", " + request)
-
-
-def test_output(args, label_defs):
-    print("This will generate the following labels, using HTTP requests:")
-    for label_def in label_defs['label']:
-        print_progress(label_def['name'], label_def['color'],
-                       create_request(args, label_def)[0])
-
-
 def get_all_repos(args):
     """Get all repos for a user."""
     all_repos = list()
@@ -100,7 +89,7 @@ def issue_requests(args, label_defs):
     # populate a list of the repos we would like to update
     repositories = list()
 
-    if args.all is not None:
+    if args.all:
         repositories.extend(get_all_repos(args))
     elif args.repository is not None:
         repositories.append(args.repository)
@@ -112,16 +101,20 @@ def issue_requests(args, label_defs):
 
     for label_def in label_defs['label']:
         for repo in repositories:
-            response, request_url = make_request(args, label=label_def, repo_name=repo)
-
-            if (response.status_code != 200 and response.status_code != 201):
-                print("  failed request to {}: ({}) {}".format(request_url, response.status_code, response.text))
+            if args.test:
+                print("  would create label {} with color {} here: {}/{}".format(label_def['name'], label_def['color'], args.owner, repo))
             else:
-                print("  done (%s)" % (response.status_code))
+                response, request_url = make_request(args, label=label_def, repo_name=repo)
+
+                if (response.status_code != 200 and response.status_code != 201):
+                    print("  failed request to {}: ({}) {}".format(request_url, response.status_code, response.text))
+                else:
+                    print("  done (%s)" % (response.status_code))
 
 
 if __name__ == '__main__':
     args = parse_args()
+    two_factor = None
 
     # check to see if either 'all' is set to True (meaning we will add these)
     # labels for all of the owner's repos or -r is set specifying the specific
@@ -133,8 +126,7 @@ if __name__ == '__main__':
 
     label_defs = read_definitions(args.definitions)
 
-    if args.test:
-        test_output(args, label_defs)
-    else:
+    if not args.test or args.all:
         two_factor = input("Enter two factor code: ")
-        issue_requests(args, label_defs)
+
+    issue_requests(args, label_defs)
