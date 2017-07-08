@@ -8,10 +8,6 @@ import json
 import requests
 
 
-def output(message):
-    print(message)
-
-
 def setup_args_parser():
     parser = argparse.ArgumentParser(description="Generates GitHub issue " +
                                                  "labels.")
@@ -35,12 +31,10 @@ def setup_args_parser():
 
 
 def parse_args():
-    output("parsing arguments")
     return setup_args_parser().parse_args()
 
 
 def read_definitions(file_):
-    output("reading definitions from file " + file_)
     with open(file_, 'r') as stream:
         return json.load(stream)
 
@@ -73,11 +67,11 @@ def make_request(args, label=None, request_url=None, repo_name=None):
 
 
 def print_progress(name, color, request):
-    output("  " + name + ", " + color + ", " + request)
+    print("  " + name + ", " + color + ", " + request)
 
 
 def test_output(args, label_defs):
-    output("This will generate the following labels, using HTTP requests:")
+    print("This will generate the following labels, using HTTP requests:")
     for label_def in label_defs['label']:
         print_progress(label_def['name'], label_def['color'],
                        create_request(args, label_def)[0])
@@ -123,7 +117,7 @@ def issue_requests(args, label_defs):
             if (response.status_code != 200 and response.status_code != 201):
                 print("  failed request to {}: ({}) {}".format(request_url, response.status_code, response.text))
             else:
-                output("  done (%s)" % (response.status_code))
+                print("  done (%s)" % (response.status_code))
 
 
 if __name__ == '__main__':
