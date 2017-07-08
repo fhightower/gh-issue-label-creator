@@ -61,7 +61,7 @@ def make_request(args, label=None, request_url=None, repo_name=None):
                                  data=http_request[1], auth=auth, timeout=10)
     else:
         response = requests.get(request_url, headers=header, auth=auth,
-                                 timeout=10)
+                                timeout=10)
 
     return response, request_url
 
@@ -94,20 +94,23 @@ def issue_requests(args, label_defs):
     elif args.repository is not None:
         repositories.append(args.repository)
 
-    print(repositories)
-
     if len(repositories) > 0:
         print("Creating labels:")
 
     for label_def in label_defs['label']:
         for repo in repositories:
             if args.test:
-                print("  would create label {} with color {} here: {}/{}".format(label_def['name'], label_def['color'], args.owner, repo))
+                print("  would create label '{}' ".format(label_def['name']) +
+                      "with color '#{}' here: ".format(label_def['color']) +
+                      "{}/{}".format(args.owner, repo))
             else:
-                response, request_url = make_request(args, label=label_def, repo_name=repo)
+                response, request_url = make_request(args, label=label_def,
+                                                     repo_name=repo)
 
-                if (response.status_code != 200 and response.status_code != 201):
-                    print("  failed request to {}: ({}) {}".format(request_url, response.status_code, response.text))
+                if not response.ok:
+                    print("  failed request to {}: ".format(request_url) +
+                          "({}) ".format(response.status_code) +
+                          "{}".format(response.text))
                 else:
                     print("  done (%s)" % (response.status_code))
 
