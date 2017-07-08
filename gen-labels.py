@@ -39,7 +39,7 @@ def parse_args():
 
 
 def read_definitions(file_):
-    output("reading defintions from file " + file_)
+    output("reading definitions from file " + file_)
     with open(file_, 'r') as stream:
         return json.load(stream)
 
@@ -80,7 +80,7 @@ def issue_requests(args, label_defs):
         if (response.status_code != 200 and response.status_code != 201):
             output("  failed: (%s) %s" % (response.status_code, response.text))
         else:
-            output("  done (%s)!" % (response.status_code))
+            output("  done (%s)" % (response.status_code))
 
 
 if __name__ == '__main__':
