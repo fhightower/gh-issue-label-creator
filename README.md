@@ -1,5 +1,7 @@
 # GitHub Issue Label Generator
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/844026d8fc9541748b8654b92718cf28)](https://www.codacy.com/app/fhightower/gh-issue-label-creator?utm_source=github.com&utm_medium=referral&utm_content=fhightower/gh-issue-label-creator&utm_campaign=badger)
+
 The code in this repository is a modified version of the code here: [https://github.com/martinpeck/gh-issue-label-generator](https://github.com/martinpeck/gh-issue-label-generator). This version of the script works even if you have two factor enabled on your account (and why would you not???).
 
 This python script will generate the standard set of labels that we use in all of our GitHub issues databases.
